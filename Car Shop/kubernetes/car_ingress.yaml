@@ -1,0 +1,40 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-carshop-prefix
+  namespace: carshop
+spec:
+  stripPrefix:
+    forceSlash: false
+    prefixes:
+      - /carshop
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: carshop-ingress
+  namespace: carshop
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    traefik.ingress.kubernetes.io/router.middlewares: carshop-strip-carshop-prefix@kubernetescrd
+spec:
+  rules:
+    - host: carshop.domain.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: carshop-service
+                port:
+                  number: 5000
+    - http:
+        paths:
+          - path: /carshop
+            pathType: Prefix
+            backend:
+              service:
+                name: carshop-service
+                port:
+                  number: 5000

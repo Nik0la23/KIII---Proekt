@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: carshop-config
+  namespace: carshop
+data:
+  FLASK_APP: app.py
+  FLASK_RUN_HOST: 0.0.0.0
+  FLASK_RUN_PORT: "5000"
+  FLASK_ENV: development
+  FLASK_DEBUG: "1"
+  MONGO_URI: "mongodb://mongo-0.mongo-headless.carshop.svc.cluster.local:27017,mongo-1.mongo-headless.carshop.svc.cluster.local:27017,mongo-2.mongo-headless.carshop.svc.cluster.local:27017/carDB?replicaSet=rs0"
