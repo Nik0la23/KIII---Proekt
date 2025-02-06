@@ -1,10 +1,11 @@
+import os
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 
 # MongoDB Configuration
-app.config["MONGO_URI"] = "mongodb://localhost:27017/carDB"
+app.config["MONGO_URI"] = os.environ.get("MONGO_URI", "mongodb://localhost:27017/carDB")
 mongo = PyMongo(app)
 cars_collection = mongo.db.cars
 
