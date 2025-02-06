@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car List</title>
+</head>
+<body>
+    <h1>Cars for Sale</h1>
+    <a href="{{ url_for('add_car') }}">Add New Car</a>
+    <ul>
+        {% for car in cars %}
+            <li>
+                <a href="{{ url_for('car_details', car_id=car._id) }}">
+                    {{ car.make }} {{ car.model }} ({{ car.year }})
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Details</title>
+</head>
+<body>
+    <h1>{{ car.make }} {{ car.model }} ({{ car.year }})</h1>
+
+    <h2>Update Car</h2>
+    <form method="POST">
+        Make: <input type="text" name="make" value="{{ car.make }}" required><br>
+        Model: <input type="text" name="model" value="{{ car.model }}" required><br>
+        Year: <input type="number" name="year" value="{{ car.year }}" required><br>
+        <button type="submit">Update Car</button>
+    </form>
+
+    <h2>Delete Car</h2>
+    <form method="POST" action="{{ url_for('car_details', car_id=car._id) }}" onsubmit="return confirm('Are you sure?')">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit">Delete Car</button>
+    </form>
+
+    <a href="{{ url_for('index') }}">Back to Home</a>
+</body>
+</html>
