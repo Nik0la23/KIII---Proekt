@@ -35,7 +35,7 @@ jobs:
       - name: Push Docker Image
         run: docker push nikola234/carshop-web:${{ env.VERSION }}
 
-            - name: Update Kubernetes and Docker Compose with New Image Version
+      - name: Update Kubernetes and Docker Compose with New Image Version
         run: |
           sed -i "s|image: .*|image: ${{secrets.DOCKERHUB_USERNAME}}/carshop-web:${{ env.VERSION }}|" kubernetes/car_deployment.yaml
           sed -i "s|image: .*|image: ${{secrets.DOCKERHUB_USERNAME}}/carshop-web:${{ env.VERSION }}|" docker-compose.yml
@@ -50,6 +50,3 @@ jobs:
           git push https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-          sleep 10
