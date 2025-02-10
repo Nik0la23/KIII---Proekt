@@ -1,0 +1,52 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Changed from master to main if you're using main branch
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Build Version
+        id: versioning
+        run: |
+          DATE=$(date +%d-%m-%Y-%H-%M)
+          SHORT_SHA=${GITHUB_SHA::5}
+          BRANCH=$(echo "${GITHUB_REF##*/}" | tr '/' '-')
+          VERSION="${DATE}-${SHORT_SHA}-${BRANCH}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Generated Version: $VERSION"
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker Image
+        run: docker build -t nikola234/carshop-web:${{ env.VERSION }} .
+
+      - name: Push Docker Image
+        run: docker push nikola234/carshop-web:${{ env.VERSION }}
+
+      - name: Update Kubernetes and Docker Compose with New Image Version
+        run: |
+          sed -i "s|image: .*|image: ${{secrets.DOCKERHUB_USERNAME}}/carshop-web:${{ env.VERSION }}|" kubernetes/car_deployment.yaml
+          sed -i "s|image: .*|image: ${{secrets.DOCKERHUB_USERNAME}}/carshop-web:${{ env.VERSION }}|" docker-compose.yml
+          
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "Nik0la23"
+          
+          git add kubernetes/car_deployment.yaml
+          git add docker-compose.yml
+          
+          git commit -m "Updated image version to: ${{ env.VERSION }}"
+          git push
+
+          sleep 10
