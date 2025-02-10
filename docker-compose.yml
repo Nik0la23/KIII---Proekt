@@ -15,7 +15,7 @@ services:
       - app-network
 
   mongo:
-    image: mongo:latest
+    image: nikola234/carshop-web:10-02-2025-21-25-c751d-main
     ports:
       - "27017:27017"
     volumes:
