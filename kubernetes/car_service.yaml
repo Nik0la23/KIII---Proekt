@@ -5,7 +5,7 @@ metadata:
   namespace: carshop
 spec:
   selector:
-    app: carshop    # This should match the labels in your deployment
+    app: carshop   
   ports:
     - protocol: TCP
       port: 5000
