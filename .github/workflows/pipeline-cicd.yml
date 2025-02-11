@@ -35,22 +35,27 @@ jobs:
       - name: Push Docker Image
         run: docker push nikola234/carshop-web:${{ env.VERSION }}
       
+      - name: Checkout main branch
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git fetch origin main
+          git checkout main
+
 
       - name: Update Kubernetes and Docker Compose with New Image Version
         run: |
           sed -i "s|image: .*|image: ${{secrets.DOCKERHUB_USERNAME}}/carshop-web:${{ env.VERSION }}|" kubernetes/car_deployment.yaml
           sed -i "s|image: .*|image: ${{secrets.DOCKERHUB_USERNAME}}/carshop-web:${{ env.VERSION }}|" docker-compose.yml
-          
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          
+            
           git add kubernetes/car_deployment.yaml
           git add docker-compose.yml
-          
+            
           git commit -m "Updated image version to: ${{ env.VERSION }}"
-          git push https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
 
 
             sleep 10
