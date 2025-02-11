@@ -34,6 +34,7 @@ jobs:
 
       - name: Push Docker Image
         run: docker push nikola234/carshop-web:${{ env.VERSION }}
+      
 
       - name: Update Kubernetes and Docker Compose with New Image Version
         run: |

@@ -9,6 +9,22 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI", "mongodb://localhost:27017
 mongo = PyMongo(app)
 cars_collection = mongo.db.cars
 
+# Liveness Probe
+@app.route('/health', methods=['GET'])
+def healthz():
+    return jsonify({"status": "healthy"}), 200
+
+# Readiness Probe
+@app.route('/ready', methods=['GET'])
+def readyz():
+    # Check if MongoDB is connected
+    try:
+        mongo.db.command("ping")  # Pings the MongoDB server
+        return jsonify({"status": "ready"}), 200
+    except Exception as e:
+        return jsonify({"status": "not ready", "error": str(e)}), 500
+
+
 # Home Page - List All Cars
 @app.route('/')
 def index():
