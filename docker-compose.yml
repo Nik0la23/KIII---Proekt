@@ -1,7 +1,7 @@
 
 services:
   web:
-    image: nikola234/carshop-web:11-02-2025-22-10-95888-main
+    image: nikola234/carshop-web:11-02-2025-23-31-89216-main
     ports:
       - "5000:5000"
     environment:
@@ -12,7 +12,7 @@ services:
       - mongo
 
   mongo:
-    image: mongo:4.4
+    image: nikola234/carshop-web:11-02-2025-23-31-89216-main
     ports:
       - "27017:27017"
     volumes:
