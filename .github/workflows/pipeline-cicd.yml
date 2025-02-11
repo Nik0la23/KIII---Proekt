@@ -46,7 +46,8 @@ jobs:
       - name: Update Kubernetes and Docker Compose with New Image Version
         run: |
           sed -i "s|image: .*|image: ${{secrets.DOCKERHUB_USERNAME}}/carshop-web:${{ env.VERSION }}|" kubernetes/car_deployment.yaml
-          sed -i "s|image: .*|image: ${{secrets.DOCKERHUB_USERNAME}}/carshop-web:${{ env.VERSION }}|" docker-compose.yml
+          sed -i '0,/image: .*/s|image: .*|image: ${{secrets.DOCKERHUB_USERNAME}}/carshop-web:${{ env.VERSION }}|' docker-compose.yml
+          
             
           git add kubernetes/car_deployment.yaml
           git add docker-compose.yml
