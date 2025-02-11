@@ -12,7 +12,7 @@ services:
       - mongo
 
   mongo:
-    image: nikola234/carshop-web:11-02-2025-23-31-89216-main
+    image: mongo:4.4
     ports:
       - "27017:27017"
     volumes:
