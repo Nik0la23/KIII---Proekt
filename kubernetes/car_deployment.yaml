@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: carshop-web
-        image: nikola234/carshop-web:10-02-2025-21-25-c751d-main
+        image: nikola234/carshop-web:11-02-2025-18-03-0bbc2-main
         ports:
         - containerPort: 5000
         resources:
