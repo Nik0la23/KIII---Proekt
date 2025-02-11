@@ -1,7 +1,7 @@
 
 services:
   web:
-    image: nikola234/carshop-web:11-02-2025-23-31-89216-main
+    image: nikola234/carshop-web:11-02-2025-23-35-f0bed-main
     ports:
       - "5000:5000"
     environment:
