@@ -1,8 +1,7 @@
-version: '3'
 
 services:
   web:
-    build: .
+    image: nikola234/carshop-web:11-02-2025-22-10-95888-main
     ports:
       - "5000:5000"
     environment:
@@ -11,21 +10,19 @@ services:
       - MONGO_URI=mongodb://mongo:27017/carDB
     depends_on:
       - mongo
-    networks:
-      - app-network
 
   mongo:
-    image: nikola234/carshop-web:11-02-2025-22-10-95888-main
+    image: mongo:4.4
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-    networks:
-      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "mongo --eval 'db.runCommand({ connectionStatus: 1 })' || exit 1"]
+      interval: 10s
+      retries: 10
+      timeout: 10s
 
-networks:
-  app-network:
-    driver: bridge
 
 volumes:
   mongo_data:

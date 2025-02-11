@@ -48,18 +48,18 @@ spec:
             configMapKeyRef:
               name: carshop-config
               key: MONGO_URI
-        # livenessProbe:
-        #   httpGet:
-        #     path: /health
-        #     port: 5000
-        #   initialDelaySeconds: 60
-        #   periodSeconds: 15
-        # readinessProbe:
-        #   httpGet:
-        #     path: /ready
-        #     port: 5000
-        #   initialDelaySeconds: 60
-        #   periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 60
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 5000
+          initialDelaySeconds: 60
+          periodSeconds: 10
         volumeMounts:
         - mountPath: "/app/data"
           name: app-storage
