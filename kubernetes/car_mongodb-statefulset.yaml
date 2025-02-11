@@ -6,7 +6,7 @@ metadata:
   labels:
     app: mongo
 spec:
-  storageClassName: hostpath
+  storageClassName: local-path
   accessModes:
     - ReadWriteOnce
   resources:

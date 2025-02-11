@@ -15,6 +15,7 @@ metadata:
   name: carshop-ingress
   namespace: carshop
   annotations:
+    kubernetes.io/ingress.class: traefik
     ingress.kubernetes.io/ssl-redirect: "false"
     traefik.ingress.kubernetes.io/router.middlewares: carshop-strip-carshop-prefix@kubernetescrd
 spec:
@@ -29,8 +30,6 @@ spec:
                 name: carshop-service
                 port:
                   number: 5000
-    - http:
-        paths:
           - path: /carshop
             pathType: Prefix
             backend:

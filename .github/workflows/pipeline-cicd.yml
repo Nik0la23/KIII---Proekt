@@ -54,8 +54,32 @@ jobs:
           git commit -m "Updated image version to: ${{ env.VERSION }}"
           git push origin main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
 
             sleep 10
+
+      - name: Notify on success
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+              server_address: smtp.gmail.com
+              server_port: 587
+              username: ${{ secrets.SEND_EMAIL }}
+              password: ${{ secrets.SEND_PASSWORD }}
+              subject: "Build Success"
+              body: "Build and push succeeded for version ${{ github.run_number }}!"
+              to: ${{ secrets.RECEIVE_EMAIL }}
+              from: ${{ secrets.SEND_EMAIL }}
+    
+      - name: Notify on failure
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+              server_address: smtp.gmail.com
+              server_port: 587
+              username: ${{ secrets.SEND_EMAIL }}
+              password: ${{ secrets.SEND_PASSWORD }}
+              subject: "Build Failure"
+              body: "Build and push failed for version ${{ github.run_number }}!"
+              to: ${{ secrets.RECEIVE_EMAIL }}
+              from: ${{ secrets.SEND_EMAIL }}

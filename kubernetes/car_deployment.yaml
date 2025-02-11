@@ -8,7 +8,7 @@ metadata:
     environment: production
     team: devops
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: carshop
@@ -23,12 +23,12 @@ spec:
         ports:
         - containerPort: 5000
         resources:
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         envFrom:
         - configMapRef:
             name: carshop-config
@@ -48,19 +48,19 @@ spec:
             configMapKeyRef:
               name: carshop-config
               key: MONGO_URI
-      livenessProbe:
-         httpGet:
-           path: /health
-           port: 5000
-         initialDelaySeconds: 60
-         periodSeconds: 15
-      readinessProbe:
-         httpGet:
-           path: /ready
-           port: 5000
-         initialDelaySeconds: 40
-         periodSeconds: 10
-      volumeMounts:
+        # livenessProbe:
+        #   httpGet:
+        #     path: /health
+        #     port: 5000
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 15
+        # readinessProbe:
+        #   httpGet:
+        #     path: /ready
+        #     port: 5000
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 10
+        volumeMounts:
         - mountPath: "/app/data"
           name: app-storage
       volumes:

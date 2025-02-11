@@ -4,7 +4,7 @@ metadata:
   name: app-pvc
   namespace: carshop
 spec:
-  storageClassName: hostpath    # Changed from local-path
+  storageClassName: local-path
   accessModes:
     - ReadWriteOnce
   resources:
