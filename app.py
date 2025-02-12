@@ -4,7 +4,7 @@ from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 
-# MongoDB Configuration
+# MongoDB Config
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI", "mongodb://localhost:27017/carDB")
 mongo = PyMongo(app)
 cars_collection = mongo.db.cars
@@ -17,15 +17,15 @@ def healthz():
 # Readiness Probe
 @app.route('/ready', methods=['GET'])
 def readyz():
-    # Check if MongoDB is connected
+    
     try:
-        mongo.db.command("ping")  # Pings the MongoDB server
+        mongo.db.command("ping")  
         return jsonify({"status": "ready"}), 200
     except Exception as e:
         return jsonify({"status": "not ready", "error": str(e)}), 500
 
 
-# Home Page - List All Cars
+# Home Page
 @app.route('/')
 def index():
     cars = list(cars_collection.find())
